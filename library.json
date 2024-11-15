@@ -1,0 +1,27 @@
+{
+    "name": "FastPin",
+    "version": "1.0.0",
+    "description": "An Arduino library for safe and high-speed digital read/write operations.",
+    "keywords": [
+        "fast",
+        "gpio",
+        "digital",
+        "read",
+        "write"
+    ],
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/JakesMD/FastPin.git"
+    },
+    "authors": [
+        {
+            "name": "Jacob Drew",
+            "url": "https://github.com/JakesMD",
+            "maintainer": true
+        }
+    ],
+    "license": "MIT",
+    "homepage": "https://github.com/JakesMD/FastPin",
+    "frameworks": "arduino",
+    "platforms": "*"
+}

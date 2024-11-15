@@ -1,0 +1,5 @@
+FastWritePin		KEYWORD1
+FastReadPin			KEYWORD2
+begin		KEYWORD2
+read		KEYWORD2
+write		KEYWORD2
