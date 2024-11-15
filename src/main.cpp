@@ -1,14 +1,12 @@
 #include <FastPin.h>
 
 FastWritePin ledPin(LED_BUILTIN);
-FastReadPin buttonPin(2);
 
-void setup() {
-    ledPin.begin();
-    buttonPin.begin(true);
-}
+void setup() { ledPin.begin(); }
 
 void loop() {
-    ledPin.write(buttonPin.read());
-    delay(50);
+    ledPin.write(HIGH);
+    delay(1000);
+    ledPin.write(LOW);
+    delay(1000);
 }

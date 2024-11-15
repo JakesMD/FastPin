@@ -8,7 +8,7 @@ void FastWritePin::begin(bool initialVal) {
 
     byte port = digitalPinToPort(_pin);
     _bitMask = digitalPinToBitMask(_pin);
-    _outputRegister = port == NOT_A_PIN ? portOutputRegister(port) : NULL;
+    _outputRegister = port != NOT_A_PIN ? portOutputRegister(port) : NULL;
 }
 
 void FastWritePin::write(bool val) {
@@ -38,7 +38,7 @@ void FastReadPin::begin(bool pullup) {
 
     byte port = digitalPinToPort(_pin);
     _bitMask = digitalPinToBitMask(_pin);
-    _inputRegister = port == NOT_A_PIN ? portInputRegister(port) : NULL;
+    _inputRegister = port != NOT_A_PIN ? portInputRegister(port) : NULL;
 }
 
 bool FastReadPin::read() { return (_inputRegister != NULL && *_inputRegister & _bitMask) ? HIGH : LOW; }
