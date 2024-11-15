@@ -21,3 +21,8 @@ void loop() {
 ```
 
 > ⚠️ FastPin only disables PWM timers in `begin()`. DO NOT use `analogWrite()` on the same pin.
+
+
+## Contributions Welcome
+
+We're open to contributions, especially for improvements in speed and efficiency. Feel free to open issues or pull requests with optimizations, feature requests, or bug reports to help make this project even better. Your input is valuable and appreciated!
