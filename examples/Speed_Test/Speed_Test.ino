@@ -4,17 +4,26 @@
 
 #define WRITE_PIN 2
 #define READ_PIN 3
+#define EXECUTIONS_PER_AVERAGE 1000
+#define AVERAGES_PER_TEST 1000
 
 FastWritePin writePin(WRITE_PIN);
 FastReadPin readPin(READ_PIN);
 
-float avarageDuration(byte times, void (*func)()) {
-    long startTime = micros();
-    for (byte i = 0; i < times; i++) {
-        func();
+float avarageDuration(void (*func)()) {
+    long startTime, endTime;
+    float totalAvg = 0;
+
+    for (int i = 0; i < AVERAGES_PER_TEST; i++) {
+        startTime = micros();
+        for (int j = 0; j < EXECUTIONS_PER_AVERAGE; j++) {
+            func();
+        }
+        endTime = micros();
+        totalAvg += static_cast<float>(endTime - startTime) / static_cast<float>(EXECUTIONS_PER_AVERAGE);
     }
-    long endTime = micros();
-    return static_cast<float>(endTime - startTime) / static_cast<float>(times) * 2.0;
+
+    return totalAvg / static_cast<float>(AVERAGES_PER_TEST);
 }
 
 void setup() {
@@ -23,42 +32,40 @@ void setup() {
     // digitalWrite
     pinMode(WRITE_PIN, OUTPUT);
 
-    float avarage = avarageDuration(50, []() {
-        digitalWrite(WRITE_PIN, HIGH);
-        digitalWrite(WRITE_PIN, LOW);
-    });
+    float avarage = avarageDuration([]() { digitalWrite(WRITE_PIN, LOW); });
     Serial.print(F("AVG micros / digitalWrite: "));
     Serial.println(avarage);
 
     // FastWritePin
     writePin.begin();
 
-    avarage = avarageDuration(50, []() {
-        writePin.write(HIGH);
-        writePin.write(LOW);
-    });
-    Serial.print(F("AVG micros / FAST dig. write: "));
-    Serial.println(avarage);
+    float fastAvarage = avarageDuration([]() { writePin.write(LOW); });
+    Serial.print(F("AVG micros / FastWritePin: "));
+    Serial.println(fastAvarage);
+
+    // Write results
+    Serial.print(F("FastWritePin is "));
+    Serial.print(avarage / fastAvarage);
+    Serial.println(F(" times faster than digitalWrite.\n"));
 
     // digitalRead
     pinMode(READ_PIN, INPUT);
 
-    float avarage = avarageDuration(50, []() {
-        digitalRead(READ_PIN);
-        digitalRead(READ_PIN);
-    });
-    Serial.print(F("AVG micros / digitalRead "));
+    avarage = avarageDuration([]() { digitalRead(READ_PIN); });
+    Serial.print(F("AVG micros / digitalRead: "));
     Serial.println(avarage);
 
     // FastReadPin
     readPin.begin();
 
-    avarage = avarageDuration(50, []() {
-        readPin.read();
-        readPin.read();
-    });
-    Serial.print(F("AVG micros / FAST dig. read: "));
-    Serial.println(avarage);
+    fastAvarage = avarageDuration([]() { readPin.read(); });
+    Serial.print(F("AVG micros / FastReadPin: "));
+    Serial.println(fastAvarage);
+
+    // Read results
+    Serial.print(F("FastReadPin is "));
+    Serial.print(avarage / fastAvarage);
+    Serial.println(F(" times faster than digitalRead."));
 }
 
 void loop() {}
