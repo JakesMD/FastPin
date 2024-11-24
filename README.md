@@ -35,6 +35,8 @@ void loop() {
 
 > ⚠️ FastPin only disables PWM timers in `begin()`. DO NOT use `analogWrite()` on the same pin.
 
+## Optimizing Analog Reads for Speed
+Analog reads are typically platform-specific operations. Nick Gammon has an excellent article detailing techniques to accelerate analog readings. You can explore it [here](https://www.gammon.com.au/adc).
 
 ## Contributions Welcome
 
